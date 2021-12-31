@@ -1,9 +1,9 @@
 {
-  "name": "nedb",
-  "version": "1.8.0",
+  "name": "nedb-2",
+  "version": "0.1.0",
   "author": {
-    "name": "Louis Chatriot",
-    "email": "louis.chatriot@gmail.com"
+    "name": "Robert Aarts",
+    "email": "robert@lokkilok.com"
   },
   "contributors": [
     "Louis Chatriot"
@@ -14,10 +14,10 @@
     "datastore",
     "embedded"
   ],
-  "homepage": "https://github.com/louischatriot/nedb",
+  "homepage": "https://github.com/lokkilok/nedb",
   "repository": {
     "type": "git",
-    "url": "git@github.com:louischatriot/nedb.git"
+    "url": "git@github.com:lokkilok/nedb.git"
   },
   "dependencies": {
     "async": "^3.2.2",

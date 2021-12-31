@@ -8,7 +8,7 @@ var should = require('chai').should()
   , model = require('../lib/model')
   , Datastore = require('../lib/datastore')
   , Persistence = require('../lib/persistence')
-  , reloadTimeUpperBound = 60;   // In ms, an upper bound for the reload time used to check createdAt and updatedAt
+  , reloadTimeUpperBound = 100;   // In ms, an upper bound for the reload time used to check createdAt and updatedAt
   ;
 
 
@@ -1430,6 +1430,36 @@ describe('Database', function () {
                 Object.keys(docs[0]).length.should.equal(2);
                 docs[0].a.should.equal(2);
                 docs[0]._id.should.equal(newDoc._id);
+
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+
+    it('Cant pollute prototype', function (done) {
+      d.insert({ a: 2 }, function (err, newDoc) {
+        d.update({ a: 2 }, { $set: { '__proto__._polluted': 'nope' } }, {}, function (err) {
+          assert.isDefined(err);
+
+          d.find({}, function (err, docs) {
+            docs.length.should.equal(1);
+            Object.keys(docs[0]).length.should.equal(2);
+            docs[0].a.should.equal(2);
+            docs[0]._id.should.equal(newDoc._id);
+            assert.notExists(docs[0]._polluted);
+
+            d.update({ a: 2 }, { $set: { 'constructor.prototype._polluted': 'nope' } }, {}, function (err) {
+              assert.isDefined(err);
+
+              d.find({}, function (err, docs) {
+                docs.length.should.equal(1);
+                Object.keys(docs[0]).length.should.equal(2);
+                docs[0].a.should.equal(2);
+                docs[0]._id.should.equal(newDoc._id);
+                assert.notExists(docs[0]._polluted);
 
                 done();
               });
